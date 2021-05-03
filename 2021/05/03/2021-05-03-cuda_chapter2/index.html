@@ -20,30 +20,35 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="我们都在阴沟里，但仍有人仰望星空">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Senbei&#39;s Blog">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="2.2 CUDA中的Hello World程序 GPU是设备（dev），CPU是主机（host）  CUDA程序既有主机代码也有设备代码，主机对设备的调用是通过核函数来实现的 123456int main() &amp;#123;	&#x2F;&#x2F; 主机代码	&#x2F;&#x2F; 核函数调用	&#x2F;&#x2F; 主机代码	return 0;&amp;#125;   核函数与C++中的函数类似，但需要被限定词__global__修饰，且返回类型必须是voi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CUDA编程：基础与实践——第二章CUDA中的线程组织">
+<meta property="og:url" content="http://example.com/2021/05/03/2021-05-03-cuda_chapter2/index.html">
 <meta property="og:site_name" content="Senbei&#39;s Blog">
-<meta property="og:description" content="我们都在阴沟里，但仍有人仰望星空">
+<meta property="og:description" content="2.2 CUDA中的Hello World程序 GPU是设备（dev），CPU是主机（host）  CUDA程序既有主机代码也有设备代码，主机对设备的调用是通过核函数来实现的 123456int main() &amp;#123;	&#x2F;&#x2F; 主机代码	&#x2F;&#x2F; 核函数调用	&#x2F;&#x2F; 主机代码	return 0;&amp;#125;   核函数与C++中的函数类似，但需要被限定词__global__修饰，且返回类型必须是voi">
 <meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2021/05/03/y5MaFEsHwJActB8.png">
+<meta property="article:published_time" content="2021-05-03T06:10:37.000Z">
+<meta property="article:modified_time" content="2021-05-03T07:02:25.283Z">
 <meta property="article:author" content="Senbei">
+<meta property="article:tag" content="CUDA">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/05/03/y5MaFEsHwJActB8.png">
 
-<link rel="canonical" href="http://example.com/">
+<link rel="canonical" href="http://example.com/2021/05/03/2021-05-03-cuda_chapter2/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh_Hans'
   };
 </script>
 
-  <title>Senbei's Blog</title>
+  <title>CUDA编程：基础与实践——第二章CUDA中的线程组织 | Senbei's Blog</title>
   
 
 
@@ -151,9 +156,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh_Hans">
@@ -169,10 +175,9 @@
       <meta itemprop="name" content="Senbei's Blog">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/03/2021-05-03-cuda_chapter2/" class="post-title-link" itemprop="url">CUDA编程：基础与实践——第二章CUDA中的线程组织</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          CUDA编程：基础与实践——第二章CUDA中的线程组织
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -205,7 +210,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="2-2-CUDA中的Hello-World程序"><a href="#2-2-CUDA中的Hello-World程序" class="headerlink" title="2.2 CUDA中的Hello World程序"></a>2.2 CUDA中的Hello World程序</h3><ul>
+        <h3 id="2-2-CUDA中的Hello-World程序"><a href="#2-2-CUDA中的Hello-World程序" class="headerlink" title="2.2 CUDA中的Hello World程序"></a>2.2 CUDA中的Hello World程序</h3><ul>
 <li><p>GPU是设备（dev），CPU是主机（host）</p>
 </li>
 <li><p>CUDA程序既有主机代码也有设备代码，主机对设备的调用是通过核函数来实现的</p>
@@ -236,93 +241,105 @@
 </ul>
 </li>
 </ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/05/03/2021-05-03-cuda_chapter2/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh_Hans">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/11/hello,%20world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img2.baidu.com/it/u=1484095632,2031005105&fm=26&fmt=auto&gp=0.jpg">
-      <meta itemprop="name" content="Senbei">
-      <meta itemprop="description" content="我们都在阴沟里，但仍有人仰望星空">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Senbei's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/11/hello,%20world/" class="post-title-link" itemprop="url">hello, world</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2021-04-11 00:59:46 / Modified: 01:37:21" itemprop="dateCreated datePublished" datetime="2021-04-11T00:59:46+08:00">2021-04-11</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>记录一下这个博客产生的原因：</p>
+<span id="more"></span>
+<h3 id="2-3-CUDA中的线程组织"><a href="#2-3-CUDA中的线程组织" class="headerlink" title="2.3 CUDA中的线程组织"></a>2.3 CUDA中的线程组织</h3><ul>
+<li><p>核函数中代码执行的方式是”单指令——多线程”，即每一个线程都执行同一串指令</p>
+</li>
+<li><p>从开普勒架构开始，最大允许的线程块大小是1024，最大允许的网格大小是$2^{31}-1$（针对一维网格）</p>
+</li>
+<li><p>每个线程都有唯一的身份标识（两个参数）</p>
 <ul>
-<li>senbei明天还要实习上班</li>
-<li>senbei的毕设也面临很大的困难     </li>
+<li>内建变量（built-in variable）<ul>
+<li>gridDim.x：grid_size</li>
+<li>blockDim.x：block_size</li>
+<li>blockIdx.x：[0, gridDim.x - 1]</li>
+<li>threadIdx.x：[0, blockDim.x - 1]</li>
 </ul>
-<p>除了做毕设和实习，一切都变得有意思，就连以前觉得麻烦的搭博客，都显得很有趣^_^</p>
+</li>
+</ul>
+</li>
+<li><p>blockIdx和threadIdx是类型为uint3的变量，该类型是个结构体</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> __<span class="title">dev_builtin__</span> <span class="title">uint3</span> &#123;</span></span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> x, y, z;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> __device_builtin__ <span class="class"><span class="keyword">struct</span> <span class="title">uint3</span> <span class="title">uint3</span>;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>gridDim和blockDim是类型为dim3的变量，该类型是一个结构体，也是x，y，z</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">dim3 <span class="title">grid_size</span><span class="params">(Gx, Gy, Gz)</span></span></span><br><span class="line"><span class="function">dim3 <span class="title">block_size</span><span class="params">(Bx, By, Bz)</span></span></span><br></pre></td></tr></table></figure></li>
+<li><p>tid的计算，x维度变化最快，z维度变化最慢</p>
+<ul>
+<li><p><img src="https://i.loli.net/2021/05/03/y5MaFEsHwJActB8.png" alt="image-20210430183356115.png"></p>
+</li>
+<li><p>$tid=threadIdx.x+threadIdx.y<em>blockDim.x+threadIdx.z</em>blockDim.x*blockDim.y$</p>
+</li>
+<li><p>bid一般不这么计算，但是也可以用类似定义</p>
+</li>
+<li><p><strong>？复合线程索引</strong></p>
+</li>
+</ul>
+</li>
+<li><p>线程束（thread warp）：线程块中的线程还可以细分为线程束，一个线程束是一个线程块中相邻的warpSize个线程，其值对目前所有GPU架构都是32</p>
+</li>
+<li><p>网格在xyz三个方向最大允许值分别为$2^{31}-1$、65535和65535；线程块在xyz三个方向最大允许值为1024、1024和64，且线程块总大小不允许超过1024</p>
+</li>
+</ul>
+<h3 id="2-4-CUDA中的头文件"><a href="#2-4-CUDA中的头文件" class="headerlink" title="2.4 CUDA中的头文件"></a>2.4 CUDA中的头文件</h3><ul>
+<li>nvcc编译器驱动编译.cu文件时，将自动包含必要的CUDA头文件</li>
+</ul>
+<h3 id="2-5-用nvcc编译CUDA程序"><a href="#2-5-用nvcc编译CUDA程序" class="headerlink" title="2.5 用nvcc编译CUDA程序"></a>2.5 用nvcc编译CUDA程序</h3><ul>
+<li><p>nvcc先将全部源码分离为主机代码和设备代码，主机代码完整支持C++语法，但设备代码只支持部分</p>
+</li>
+<li><p>nvcc先将设备代码编译为PTX（parallel thread execution）伪汇编代码，再将PTX代码编译为二进制cubin目标代码。</p>
+<ul>
+<li>-arch=compute_XY，将源代码编译为PXT代码时指定虚拟架构的计算能力，以确定代码中能使用的CUDA功能</li>
+<li>-code=sm_ZW，将PTX代码转化为cubin代码时指定真正架构的计算能力</li>
+<li>真正架构的计算能力必须大于等于虚拟架构的计算能力</li>
+<li><strong>？没懂为什么要这样</strong></li>
+</ul>
+</li>
+<li><p>-code指定了GPU真实架构Z.W，对应的可执行文件只能在主版本号为Z，次版本号大于等于W的GPU中运行；如果需要通用，可以同时制定多组计算能力</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-gencode arch=compute_XY, code=sm_ZW</span><br><span class="line">-gencode arch=compute_XY, code=sm_ZW</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 
-      
+<ul>
+<li>这样可执行文件（胖二进制文件）将包含多个二进制版本</li>
+<li>过多指定计算能力，会增加编译时间和可执行文件大小</li>
+</ul>
+</li>
+<li><p>即时编译机制</p>
+<ul>
+<li>要在可执行文件中嵌入一个可执行代码，用于编译出一个可以在XY算力的架构上运行的代码，但是不一定能利用好特性</li>
+<li><code>-codegen arch=compute_XY code=compute_XY</code></li>
+</ul>
+</li>
+<li><p>简化的编译选项</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-arch=sm_XY</span><br><span class="line"></span><br><span class="line">-gencode arch=compute_XY code=cm_XY</span><br><span class="line">-gencode arch=compute_XY code=compute_XY</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>? 默认命令的计算能力奇奇怪怪，不是说主版本号必须相同吗</strong></p>
+</li>
+</ul>
+
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
+          <div class="post-tags">
+              <a href="/tags/CUDA/" rel="tag"># CUDA</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/04/11/hello,%20world/" rel="prev" title="hello, world">
+      <i class="fa fa-chevron-left"></i> hello, world
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
       </footer>
+    
   </article>
   
   
-  
-
-
   
 
 
@@ -375,6 +392,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-CUDA%E4%B8%AD%E7%9A%84Hello-World%E7%A8%8B%E5%BA%8F"><span class="nav-number">1.</span> <span class="nav-text">2.2 CUDA中的Hello World程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-CUDA%E4%B8%AD%E7%9A%84%E7%BA%BF%E7%A8%8B%E7%BB%84%E7%BB%87"><span class="nav-number">2.</span> <span class="nav-text">2.3 CUDA中的线程组织</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-CUDA%E4%B8%AD%E7%9A%84%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">2.4 CUDA中的头文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-%E7%94%A8nvcc%E7%BC%96%E8%AF%91CUDA%E7%A8%8B%E5%BA%8F"><span class="nav-number">4.</span> <span class="nav-text">2.5 用nvcc编译CUDA程序</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
